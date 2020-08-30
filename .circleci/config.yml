@@ -26,8 +26,6 @@ jobs:
 
     steps:
       - checkout
-      - codecov/upload:
-          file: coverage/*.json
 
       # Download and cache dependencies
       - restore_cache:
@@ -45,3 +43,5 @@ jobs:
 
       # run tests!
       - run: gradle test
+      - codecov/upload:
+          file: coverage/*.json
