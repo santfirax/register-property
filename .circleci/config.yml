@@ -27,7 +27,7 @@ jobs:
     steps:
       - checkout
       - codecov/upload:
-          file: {{ coverage_report_filepath }}
+          file: coverage/*.json
 
       # Download and cache dependencies
       - restore_cache:
