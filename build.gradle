@@ -19,6 +19,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
 }
 
 

@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class IRegisterPropertyControllerImpl implements IRegisterPropertyController {
+public class RegisterPropertyControllerImpl implements IRegisterPropertyController {
     @Autowired
     private IRegisterProperty iRegisterProperty;
 
