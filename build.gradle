@@ -41,7 +41,6 @@ dependencies {
 jacocoTestReport {
     reports {
         xml.enabled true
-        html.enabled false
     }
 }
 jacoco{
@@ -49,5 +48,4 @@ jacoco{
     reportsDir = file("$buildDir/customJacocoReportDir")
 }
 check.dependsOn jacocoTestReport
-test.finalizedBy jacocoTestReport
 
