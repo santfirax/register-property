@@ -3,29 +3,26 @@ package com.smolano.registerproperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smolano.registerproperty.entities.Property;
 import com.smolano.registerproperty.model.PropertyDTO;
+import com.smolano.registerproperty.repositories.PropertyRepository;
 import com.smolano.registerproperty.resource.IRegisterPropertyController;
 import com.smolano.registerproperty.service.IRegisterProperty;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +34,8 @@ public class RegisterRepositoryControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private IRegisterProperty registerProperty;
+    @MockBean
+    private PropertyRepository propertyRepository;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -73,7 +72,6 @@ public class RegisterRepositoryControllerTest {
         normalProperty.setForSale(true);
         normalProperty.setNumberOfBathrooms(2);
         normalProperty.setNumberOfRooms(2);
-//        given(registerProperty.getPropertiesByLeaseValueAndNumberOfRoomsAndArea(2000000, 2, 2)).willReturn(propertyList);
         LinkedMultiValueMap<String, String> queriParams = new LinkedMultiValueMap();
         queriParams.add("leaseValue", "2000000.0");
         queriParams.add("numberOfRooms", "2");
@@ -81,6 +79,42 @@ public class RegisterRepositoryControllerTest {
         this.mockMvc.perform(get("/property")
                 .queryParams(queriParams))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void shouldNotResponseListOfPropertiesDueToLeaseValueParameterMissing() throws Exception {
+        LinkedMultiValueMap<String, String> queriParams = new LinkedMultiValueMap();
+        queriParams.add("numberOfRooms", "2");
+        queriParams.add("area", "2.0");
+        this.mockMvc.perform(get("/property")
+                .queryParams(queriParams))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Required double parameter 'leaseValue' is not present"))
+                .andDo(print());
+    }
+
+    @Test
+    public void shouldNotResponseListOfPropertiesDueToNumberOfRoomsParameterMissing() throws Exception {
+        LinkedMultiValueMap<String, String> queriParams = new LinkedMultiValueMap();
+        queriParams.add("leaseValue", "2000000.0");
+        queriParams.add("area", "2.0");
+        this.mockMvc.perform(get("/property")
+                .queryParams(queriParams))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Required int parameter 'numberOfRooms' is not present"))
+                .andDo(print());
+    }
+
+    @Test
+    public void shouldNotResponseListOfPropertiesDueToareaParameterMissing() throws Exception {
+        LinkedMultiValueMap<String, String> queriParams = new LinkedMultiValueMap();
+        queriParams.add("leaseValue", "2000000.0");
+        queriParams.add("numberOfRooms", "2");
+        this.mockMvc.perform(get("/property")
+                .queryParams(queriParams))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Required double parameter 'area' is not present"))
                 .andDo(print());
     }
 }

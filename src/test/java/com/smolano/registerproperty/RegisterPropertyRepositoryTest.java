@@ -25,9 +25,4 @@ public class RegisterPropertyRepositoryTest {
         Assert.assertEquals(propertyFromRequest, propertyInDb);
 
     }
-
-    @Test
-    public void shouldGetAllPropertiesFromDatabase() {
-
-    }
 }

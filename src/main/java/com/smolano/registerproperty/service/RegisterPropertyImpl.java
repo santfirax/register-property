@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,16 +21,10 @@ public class RegisterPropertyImpl implements IRegisterProperty {
         propertyRepository.saveAndFlush(property);
     }
 
-    @Override
-    public List<Property> getAllProperties() {
-        Property property = new Property();
-        property.setLeaseValue(2);
-        return Collections.singletonList(property);
-    }
 
     @Override
     public List<Property> getPropertiesByLeaseValueAndNumberOfRoomsAndArea(double leaseValue, int numberOfRooms, double area) {
-        LOGGER.info("Getting all properties by values {}", leaseValue);
+        LOGGER.info("Getting all properties by values leasueValue:{} numberOfRooms:{} area:{}", leaseValue,numberOfRooms,area);
         return propertyRepository.findPropertiesByLeaseValueAndNumberOfRoomsAndArea(leaseValue, numberOfRooms, area);
     }
 }

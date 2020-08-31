@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -17,13 +16,12 @@ public class RegisterPropertyControllerImpl implements IRegisterPropertyControll
     @Autowired
     private IRegisterProperty iRegisterProperty;
 
-    private ModelMapper modelMapper= new ModelMapper();
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public ResponseEntity<Property> registerProperty(URI location, @Valid PropertyDTO propertyDTO) {
+    public ResponseEntity<Property> registerProperty(URI location, PropertyDTO propertyDTO) {
         Property property = this.modelMapper.map(propertyDTO, Property.class);
         iRegisterProperty.registerProperty(property);
-
         return ResponseEntity.created(location).body(property);
     }
 

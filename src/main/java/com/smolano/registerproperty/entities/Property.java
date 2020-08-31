@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
 public class Property {
@@ -18,6 +19,7 @@ public class Property {
     private boolean isForSale;
     private boolean isForLease;
     private double leaseValue;
+    private String code= UUID.randomUUID().toString();
 
     public Property(double area, int numberOfRooms, int numberOfBathrooms, boolean isForSale, boolean isForLease, double leaseValue) {
         this.area = area;
@@ -79,15 +81,25 @@ public class Property {
         this.leaseValue = leaseValue;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "Property{" +
-                "area=" + area +
+                "id=" + id +
+                ", area=" + area +
                 ", numberOfRooms=" + numberOfRooms +
                 ", numberOfBathrooms=" + numberOfBathrooms +
                 ", isForSale=" + isForSale +
                 ", isForLease=" + isForLease +
                 ", leaseValue=" + leaseValue +
+                ", code='" + code + '\'' +
                 '}';
     }
 }

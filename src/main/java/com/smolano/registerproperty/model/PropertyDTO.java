@@ -9,7 +9,7 @@ public class PropertyDTO {
     private double leaseValue;
 
     public PropertyDTO() {
-        
+
     }
 
     public double getArea() {
