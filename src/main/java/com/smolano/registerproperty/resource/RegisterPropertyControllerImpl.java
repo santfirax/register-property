@@ -1,7 +1,9 @@
 package com.smolano.registerproperty.resource;
 
 import com.smolano.registerproperty.entities.Property;
+import com.smolano.registerproperty.model.PropertyDTO;
 import com.smolano.registerproperty.service.IRegisterProperty;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +17,13 @@ public class RegisterPropertyControllerImpl implements IRegisterPropertyControll
     @Autowired
     private IRegisterProperty iRegisterProperty;
 
+    private ModelMapper modelMapper= new ModelMapper();
+
     @Override
-    public ResponseEntity<Property> registerProperty(URI location, @Valid Property property) {
+    public ResponseEntity<Property> registerProperty(URI location, @Valid PropertyDTO propertyDTO) {
+        Property property = this.modelMapper.map(propertyDTO, Property.class);
         iRegisterProperty.registerProperty(property);
+
         return ResponseEntity.created(location).body(property);
     }
 

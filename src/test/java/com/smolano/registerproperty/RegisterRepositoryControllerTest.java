@@ -2,15 +2,20 @@ package com.smolano.registerproperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smolano.registerproperty.entities.Property;
+import com.smolano.registerproperty.model.PropertyDTO;
 import com.smolano.registerproperty.resource.IRegisterPropertyController;
 import com.smolano.registerproperty.service.IRegisterProperty;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -37,7 +42,7 @@ public class RegisterRepositoryControllerTest {
 
     @Test
     public void shouldRegisterProperty() throws Exception {
-        Property propertyFromRequest = new Property();
+        PropertyDTO propertyFromRequest = new PropertyDTO();
         propertyFromRequest.setLeaseValue(2);
         propertyFromRequest.setArea(2);
         propertyFromRequest.setForSale(true);
