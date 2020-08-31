@@ -17,8 +17,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -57,7 +59,6 @@ public class RegisterRepositoryControllerTest {
 
     @Test
     public void shouldGetPropertiesWithLeaseValueAndNumberOfRoomsAndAreaFilters() throws Exception {
-        List<Property> propertyList = new ArrayList<>();
         Property expensiveProperty = new Property();
         expensiveProperty.setLeaseValue(2000000);
         expensiveProperty.setArea(2);
@@ -76,10 +77,13 @@ public class RegisterRepositoryControllerTest {
         queriParams.add("leaseValue", "2000000.0");
         queriParams.add("numberOfRooms", "2");
         queriParams.add("area", "2.0");
+        List<Property> properties= Arrays.asList(expensiveProperty,normalProperty);
+        when(registerProperty.getPropertiesByLeaseValueAndNumberOfRoomsAndArea(2000000.0, 2, 2.0)).thenReturn(properties);
         this.mockMvc.perform(get("/property")
                 .queryParams(queriParams))
                 .andExpect(status().isOk())
                 .andDo(print());
+        verify(registerProperty,times(1)).getPropertiesByLeaseValueAndNumberOfRoomsAndArea(2000000.0,2,2.0);
     }
 
     @Test
